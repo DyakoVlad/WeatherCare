@@ -8,7 +8,7 @@
 
 import Foundation
 
-final class AppConstants {
+final public class AppConstants {
     static let baseURL = "https://api.openweathermap.org/data/2.5/"
     static let weatherAppId = "d7805ea0c45ca694dcd82181779f025e"
 }

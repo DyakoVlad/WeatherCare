@@ -9,15 +9,8 @@
 
 import Foundation
 
-struct WeatherDescription: Equatable {
-    let id: Int?
-    let description: String?
-
-}
-
-extension WeatherDescription: Decodable {
-    enum CodingKeys: String, CodingKey {
-        case id
-        case description
-    }
+struct WeatherDescription: Equatable, Decodable {
+    let id: Int
+    let description: String
+    let icon: String
 }

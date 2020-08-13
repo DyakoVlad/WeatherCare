@@ -17,7 +17,21 @@ public class MainPresenter: MainPresentationLogic {
     
     // MARK: - Presenting logic
     public func presentData(response: Main.Model.Response) {
-//        let viewModel = Main.Model.ViewModel()
-//        viewController?.displayData(viewModel: viewModel)
+        DispatchQueue.main.async {
+            switch response {
+            case .gotWeaterData(let data):
+                let model = WeatherModel(cityName: data.cityName,
+                                         weatherDescription: data.weatherDescription[0].description.prefix(1).uppercased() + data.weatherDescription[0].description.dropFirst(),
+                                         weatherIcon: UIImage(named: String(data.weatherDescription[0].icon.dropLast())),
+                                         degreesText: "\(Int(data.temperatureInK - 273.15))°",
+                    windSpeedText: "\(data.windSpeed) км/ч",
+                    feelsLikeDegreesText: "\(Int(data.feelsLikeInK - 273.15))°",
+                    humidityText: "\(data.humidity)%")
+                
+                self.viewController?.displayData(viewModel: .gotWeatherModel(model: model))
+            case .error(let message):
+                self.viewController?.displayData(viewModel: .error(message: message))
+            }
+        }
     }
 }

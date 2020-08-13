@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16096" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16086"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -19,7 +21,7 @@
                                 <rect key="frame" x="0.0" y="425" width="414" height="46.5"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.55294117647058827" green="0.81960784313725488" blue="0.90588235294117647" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="backgroundColor" name="lightyBlue"/>
                         <constraints>
                             <constraint firstItem="29M-0U-YBx" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="00A-tt-xac"/>
                             <constraint firstItem="29M-0U-YBx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="M7K-b4-rGq"/>
@@ -36,5 +38,8 @@
     </scenes>
     <resources>
         <image name="name" width="242" height="46.5"/>
+        <namedColor name="lightyBlue">
+            <color red="0.55294117647058827" green="0.81960784313725488" blue="0.90588235294117647" alpha="0.80000001192092896" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
     </resources>
 </document>

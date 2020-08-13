@@ -6,6 +6,7 @@
 //  Copyright (c) 2020 Vladislav Dyakov. All rights reserved.
 //
 
+import CoreLocation
 import UIKit
 
 public protocol MainDisplayLogic: class {
@@ -15,20 +16,18 @@ public protocol MainDisplayLogic: class {
 public class MainViewController: UIViewController {
     
     // MARK: - UI elements
-    private var descriptionModuleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.textColor = .brown
-        label.font = UIFont.systemFont(ofSize: 40, weight: .bold)
-        label.text = "\(MainViewController.self)"
-        label.numberOfLines = 2
-        label.textAlignment = .center
-        return label
-    }()
+    @IBOutlet weak var cityLabel: UILabel!
+    @IBOutlet weak var weatherDescriptionLabel: UILabel!
+    @IBOutlet weak var weatherImageView: UIImageView!
+    @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var windSpeedLabel: UILabel!
+    @IBOutlet weak var howItFeelsLabel: UILabel!
+    @IBOutlet weak var humidityLabel: UILabel!
     
     // MARK: - Services
     public var router: (NSObjectProtocol & MainRoutingLogic & MainDataPassing)?
     private var interactor: MainBusinessLogic?
+    private let locationManager: CLLocationManager = CLLocationManager()
     
     // MARK: - Object lifecycle
     public override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -53,23 +52,16 @@ public class MainViewController: UIViewController {
         presenter.viewController = viewController
         router.viewController = viewController
         router.dataStore = interactor
-        
-        userInterfaceSetup()
     }
     
     private func userInterfaceSetup() {
-        view.backgroundColor = .white
-        configureDescriptionTitle()
-    }
-    
-    private func configureDescriptionTitle() {
-        view.addSubview(descriptionModuleLabel)
-        NSLayoutConstraint.activate([
-            descriptionModuleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            descriptionModuleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            descriptionModuleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            descriptionModuleLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
+        self.cityLabel.text = "--"
+        self.weatherDescriptionLabel.text = "--"
+        self.weatherImageView.image = nil
+        self.temperatureLabel.text = "--"
+        self.windSpeedLabel.text = "--"
+        self.howItFeelsLabel.text = "--"
+        self.humidityLabel.text = "--"
     }
     
     // MARK: - Routing
@@ -77,22 +69,70 @@ public class MainViewController: UIViewController {
     // MARK: - View lifecycle
     public override func viewDidLoad() {
         super.viewDidLoad()
+        userInterfaceSetup()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        initialRequest()
+        startUpdatingLocation()
+    }
+    
+    public override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
     
     // MARK: - Main logic
-    public func initialRequest() {
-//        let request = Main.Model.Request()
-//        interactor?.makeRequest(request: request)
+    private func startUpdatingLocation() {
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+    }
+    
+    public func gotCoordsRequest(lat: String, lon: String) {
+        interactor?.makeRequest(request: .gotCoords(lat: lat, lon: lon))
+    }
+    
+    private func gotWeatherModel(model: WeatherModel) {
+        self.cityLabel.text = model.cityName
+        self.weatherDescriptionLabel.text = model.weatherDescription
+        self.weatherImageView.image = model.weatherIcon
+        self.temperatureLabel.text = model.degreesText
+        self.windSpeedLabel.text = model.windSpeedText
+        self.howItFeelsLabel.text = model.feelsLikeDegreesText
+        self.humidityLabel.text = model.humidityText
+    }
+    
+    private func showError(with message: String) {
+        #warning("TODO")
+        print(message)
     }
 }
 
 extension MainViewController: MainDisplayLogic {
     public func displayData(viewModel: Main.Model.ViewModel) {
-        //nameTextField.text = viewModel.name
+        switch viewModel {
+        case .gotWeatherModel(let model):
+            gotWeatherModel(model: model)
+        case .error(let message):
+            showError(with: message)
+        }
+    }
+}
+
+//MARK: - Location Manager Delegate Methods
+extension MainViewController: CLLocationManagerDelegate {
+
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        let location = locations[locations.count - 1]
+        locationManager.stopUpdatingLocation()
+
+        let lat = String(location.coordinate.latitude)
+        let lon = String(location.coordinate.longitude)
+        gotCoordsRequest(lat: lat, lon: lon)
+    }
+
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        self.showError(with: error.localizedDescription)
     }
 }

@@ -44,10 +44,10 @@ extension WeatherAPI: TargetType {
     var task: Task {
         switch self {
         case .getByCoorditates(let lat, let lon):
-            let parameters: [String : String] = ["lat": lat, "lon": lon, "appid": AppConstants.weatherAppId]
+            let parameters: [String : String] = ["lat": lat, "lon": lon, "appid": AppConstants.weatherAppId, "lang": "ru"]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         case .getByCityName(let name):
-            let parameters: [String : String] = ["q": name, "appid": AppConstants.weatherAppId]
+            let parameters: [String : String] = ["q": name, "appid": AppConstants.weatherAppId, "lang": "ru"]
             return .requestParameters(parameters: parameters, encoding: URLEncoding.default)
         }
     }
