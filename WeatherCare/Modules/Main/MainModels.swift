@@ -22,6 +22,7 @@ public enum Main {
         
         public enum ViewModel {
             case gotWeatherModel(model: WeatherModel)
+            case gotRecomendation(text: String)
             case error(message: String)
         }
     }

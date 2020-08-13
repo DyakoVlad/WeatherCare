@@ -29,9 +29,40 @@ public class MainPresenter: MainPresentationLogic {
                     humidityText: "\(data.humidity)%")
                 
                 self.viewController?.displayData(viewModel: .gotWeatherModel(model: model))
+                let recomendation = self.getRecomendation(with: data.weatherDescription[0].id, temperature: Int(data.temperatureInK - 273.15))
+                self.viewController?.displayData(viewModel: .gotRecomendation(text: recomendation))
             case .error(let message):
                 self.viewController?.displayData(viewModel: .error(message: message))
             }
         }
+    }
+    
+    private func getRecomendation(with id: Int, temperature: Int) -> String {
+        var recomendation: String = getClothRecomendation(for: temperature)
+        switch id {
+        case 200...232, 300...321, 500...531, 600...622:
+            recomendation += " и взять зонт"
+        case 700...781:
+            recomendation += ". Будьте осторожны на улице"
+        default:
+            ()
+        }
+        return recomendation
+    }
+    
+    private func getClothRecomendation(for temperature: Int) -> String {
+        let recomendation: String
+        if temperature > 25 {
+            recomendation = "Рекомендуется не надевать куртку"
+        } else if temperature > 15 {
+            recomendation = "Рекомендуется надеть легкую куртку"
+        } else if temperature > 5 {
+            recomendation = "Рекомендуется надеть осеннюю куртку"
+        } else if temperature > -5 {
+            recomendation = "Рекомендуется надеть теплую куртку"
+        } else {
+            recomendation = "Рекомендуется надеть зимнюю куртку"
+        }
+        return recomendation
     }
 }

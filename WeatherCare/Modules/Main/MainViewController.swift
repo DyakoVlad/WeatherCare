@@ -63,6 +63,7 @@ public class MainViewController: UIViewController {
         self.windSpeedLabel.text = "--"
         self.howItFeelsLabel.text = "--"
         self.humidityLabel.text = "--"
+        self.recomendationLabel.text = "--"
     }
     
     // MARK: - Routing
@@ -144,6 +145,8 @@ extension MainViewController: MainDisplayLogic {
         switch viewModel {
         case .gotWeatherModel(let model):
             gotWeatherModel(model: model)
+        case .gotRecomendation(let text):
+            recomendationLabel.text = text
         case .error(let message):
             showError(with: message)
         }
