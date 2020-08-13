@@ -7,6 +7,5 @@ target 'WeatherCare' do
 
   # Pods for WeatherCare
     pod 'Moya', '~> 13.0.1'
-    pod 'SVProgressHUD'
 
 end
