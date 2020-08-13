@@ -12,6 +12,7 @@ public enum Main {
     public enum Model {
         public enum Request {
             case gotCoords(lat: String, lon: String)
+            case gotCity(city: String)
         }
         
         public enum Response {

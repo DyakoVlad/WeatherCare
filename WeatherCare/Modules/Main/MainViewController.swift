@@ -20,6 +20,7 @@ public class MainViewController: UIViewController {
     @IBOutlet weak var weatherDescriptionLabel: UILabel!
     @IBOutlet weak var weatherImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
+    @IBOutlet weak var recomendationLabel: UILabel!
     @IBOutlet weak var windSpeedLabel: UILabel!
     @IBOutlet weak var howItFeelsLabel: UILabel!
     @IBOutlet weak var humidityLabel: UILabel!
@@ -70,11 +71,12 @@ public class MainViewController: UIViewController {
     public override func viewDidLoad() {
         super.viewDidLoad()
         userInterfaceSetup()
+        setupLocationManager()
     }
     
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        startUpdatingLocation()
+        self.locationManager.startUpdatingLocation()
     }
     
     public override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -82,15 +84,18 @@ public class MainViewController: UIViewController {
     }
     
     // MARK: - Main logic
-    private func startUpdatingLocation() {
+    private func setupLocationManager() {
         self.locationManager.delegate = self
         self.locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         self.locationManager.requestWhenInUseAuthorization()
-        self.locationManager.startUpdatingLocation()
     }
     
     public func gotCoordsRequest(lat: String, lon: String) {
         interactor?.makeRequest(request: .gotCoords(lat: lat, lon: lon))
+    }
+    
+    public func gotCityRequest(city: String) {
+        interactor?.makeRequest(request: .gotCity(city: city))
     }
     
     private func gotWeatherModel(model: WeatherModel) {
@@ -104,8 +109,33 @@ public class MainViewController: UIViewController {
     }
     
     private func showError(with message: String) {
-        #warning("TODO")
-        print(message)
+        let alert = UIAlertController(title: "Ошибка", message: message, preferredStyle: .alert)
+
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+
+        self.present(alert, animated: true)
+    }
+    
+    // MARK: - Actions
+    @IBAction func otherCityButtonPressed(_ sender: RoundedButton) {
+        let alert = UIAlertController(title: "Другой город", message: nil, preferredStyle: .alert)
+        
+        alert.addTextField(configurationHandler: { textField in
+            textField.placeholder = "Введите название города"
+        })
+        
+        alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
+            if let city = alert.textFields?.first?.text {
+                self.gotCityRequest(city: city)
+            }
+        }))
+
+        self.present(alert, animated: true)
+    }
+    
+    @IBAction func refreshButtonPressed(_ sender: RoundedButton) {
+        self.locationManager.startUpdatingLocation()
     }
 }
 

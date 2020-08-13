@@ -35,11 +35,25 @@ public final class MainInteractor: MainBusinessLogic, MainDataStore {
         switch request {
         case .gotCoords(let lat, let lon):
             getWeatherData(lat: lat, lon: lon)
+        case .gotCity(let city):
+            getWeatherData(city: city)
         }
     }
     
     private func getWeatherData(lat: String, lon: String) {
         self.weatherService.getWeatherDataByCoordinates(lat: lat, lon: lon) { [weak self] result in
+            guard let self = self else { return }
+            switch result {
+            case .success(let weatherData):
+                self.presenter?.presentData(response: .gotWeaterData(data: weatherData))
+            case .failure(let error):
+                self.errorResponse(message: error.localizedDescription)
+            }
+        }
+    }
+    
+    private func getWeatherData(city: String) {
+        self.weatherService.getWeatherDataByCityName(name: city) { [weak self] result in
             guard let self = self else { return }
             switch result {
             case .success(let weatherData):

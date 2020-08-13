@@ -22,6 +22,7 @@
 		0E2F8D7824E46C4300694A20 /* MainModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2F8D7224E46C4300694A20 /* MainModels.swift */; };
 		0E2F8D7924E46C4300694A20 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2F8D7324E46C4300694A20 /* MainViewController.swift */; };
 		0E2F8D7A24E46C4300694A20 /* MainInteractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E2F8D7424E46C4300694A20 /* MainInteractor.swift */; };
+		0EC792A224E58B6E008233DE /* RoundedButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EC792A124E58B6E008233DE /* RoundedButton.swift */; };
 		41BDD2C7A407219C1420AA3F /* Pods_WeatherCare.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F393CDE8882319B80326003B /* Pods_WeatherCare.framework */; };
 /* End PBXBuildFile section */
 
@@ -43,6 +44,7 @@
 		0E2F8D7224E46C4300694A20 /* MainModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainModels.swift; sourceTree = "<group>"; };
 		0E2F8D7324E46C4300694A20 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		0E2F8D7424E46C4300694A20 /* MainInteractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInteractor.swift; sourceTree = "<group>"; };
+		0EC792A124E58B6E008233DE /* RoundedButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoundedButton.swift; sourceTree = "<group>"; };
 		13D7A301B8C3100A86E6AEF0 /* Pods-WeatherCare.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherCare.debug.xcconfig"; path = "Target Support Files/Pods-WeatherCare/Pods-WeatherCare.debug.xcconfig"; sourceTree = "<group>"; };
 		220EC163BFFC52EDB5809A0C /* Pods-WeatherCare.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-WeatherCare.release.xcconfig"; path = "Target Support Files/Pods-WeatherCare/Pods-WeatherCare.release.xcconfig"; sourceTree = "<group>"; };
 		F393CDE8882319B80326003B /* Pods_WeatherCare.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_WeatherCare.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -81,8 +83,9 @@
 		0E2F8D3F24E469C200694A20 /* WeatherCare */ = {
 			isa = PBXGroup;
 			children = (
-				0E2F8D6C24E46BF800694A20 /* Extensions */,
 				0E2F8D5F24E46ACC00694A20 /* Application */,
+				0EC792A324E58B75008233DE /* CommonUI */,
+				0E2F8D6C24E46BF800694A20 /* Extensions */,
 				0E2F8D6224E46B0100694A20 /* Modules */,
 				0E2F8D5424E46ABE00694A20 /* Network */,
 				0E2F8D6824E46B4000694A20 /* Resources */,
@@ -171,6 +174,14 @@
 				0E2F8D6D24E46C0E00694A20 /* UIViewExtensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		0EC792A324E58B75008233DE /* CommonUI */ = {
+			isa = PBXGroup;
+			children = (
+				0EC792A124E58B6E008233DE /* RoundedButton.swift */,
+			);
+			path = CommonUI;
 			sourceTree = "<group>";
 		};
 		55AD62A77B86C34371F2888B /* Pods */ = {
@@ -317,6 +328,7 @@
 				0E2F8D7824E46C4300694A20 /* MainModels.swift in Sources */,
 				0E2F8D5B24E46ABE00694A20 /* WeatherDescription.swift in Sources */,
 				0E2F8D7A24E46C4300694A20 /* MainInteractor.swift in Sources */,
+				0EC792A224E58B6E008233DE /* RoundedButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
